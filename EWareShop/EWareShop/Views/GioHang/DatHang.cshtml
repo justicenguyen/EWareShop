@@ -1,0 +1,131 @@
+﻿@model EWareShop.Models.DonHang
+@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+    var dsPhiGiaoHang= (List<EWareShop.Models.PhiGiaoHang>)ViewBag.dsPhiGiaoHang;
+    var gioHang = (List<EWareShop.Models.SanPhamGioHang>)ViewBag.gioHang;
+}
+<div class="row margin-bottom-40 ">
+    <div class="col-md-7 ">
+        <h2>Thông tin đặt hàng</h2>
+        <form role="form" class="form-horizontal form-without-legend" asp-controller="GioHang" asp-action="DatHang">
+            <div class="form-group">
+                <label class="col-lg-2 control-label" asp-for="TenKhachHang" for="first-name"></label>
+                <div class="col-lg-8">
+                    <input asp-for="TenKhachHang" type="text" id="first-name" class="form-control">
+                    <span asp-validation-for="TenKhachHang" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label" asp-for="SoDienThoai" for="first-name"></label>
+                <div class="col-lg-8">
+                    <input asp-for="SoDienThoai" type="text" id="first-name" class="form-control">
+                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label" asp-for="Email" for="first-name"></label>
+                <div class="col-lg-8">
+                    <input asp-for="Email" type="text" id="first-name" class="form-control">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Tỉnh / Thành phố</label>
+                <div class="col-md-8">
+                    <select asp-for="TinhThanhPho" class="form-control" onchange="tinhphigiaohang();" id="phigiaohang">
+                        @foreach (var pgh in dsPhiGiaoHang)
+                        {
+                                <option value="@pgh.PhiGiaoHangID" >@pgh.DiaDiem</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <input type="hidden" id="phigiaohang" value="0" />
+                    <h5 id="thongbaophigiaohang">Giao hàng miễn phí</h5>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label" asp-for="DiaChi" for="first-name"></label>
+                <div class="col-lg-8">
+                    <input asp-for="DiaChi" type="text" id="first-name" class="form-control">
+                    <span asp-validation-for="DiaChi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label" for="message">Ghi chú</label>
+                <div class="col-lg-8">
+                    <textarea class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-offset-2 padding-left-0 padding-top-20">
+                    <button class="btn btn-primary" type="submit">Xác nhận đặt hàng</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-5">
+        <h2>Đơn hàng của bạn</h2>
+        <div class="goods-page">
+            <div class="goods-data clearfix">
+                <div class="table-wrapper-responsive">
+                    @{ int tong = 0;}
+                    <table summary="Shopping cart">
+                        <tr>
+                            <th class="goods-page-image" width="70%">Sản phẩm</th>
+                            <th class="goods-page-description" width="30%">Tổng cộng</th>
+                        </tr>
+                        @foreach (var spgh in gioHang)
+                        {
+                            tong += spgh.TongTien;
+                            <tr>
+                                <td class="goods-page-description">
+                                    <strong>@spgh.TenSP x @spgh.SoLuong </strong>
+                                </td>
+                                <td class="goods-page-price">
+                                    <strong>@Html.DisplayFor(modelItem => spgh.TongTien) đ</strong>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <br />
+                    <p style="font-size:25px;color:#e84d1c;font-family: 'PT Sans Narrow', sans-serif;">Tổng tiền : &emsp;<span id="tongtatca"></span>&nbsp;đ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section QuanLyGioHang_Script{
+    <script>
+        var tong =@tong;
+        $('#tongtatca').html(tong.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        function tinhphigiaohang()
+        {
+            var thongbaophigiaohang = "Giao hàng miễn phí";
+            var phigiaohang = 0;
+            if (@tong <=10000000)
+            {
+                $(document).ready(function () {
+                    $.ajax(
+                        {
+                            type: 'GET',
+                            url: "/GioHang/LayPhiGiaoHang",
+                            data: { "idPGH": $('#phigiaohang').val() },
+                            success: function (rs) {
+                                phigiaohang = parseInt(rs);
+                                if (phigiaohang!=0)
+                                    thongbaophigiaohang = "Phí giao hàng : " + rs.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + " đ";
+                                $('#thongbaophigiaohang').html(thongbaophigiaohang);
+                                tongtien = @tong + phigiaohang;
+                                $('#tongtatca').html(tongtien.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            }
+                        })
+                });
+            }
+        }
+    </script>
+}

@@ -1,0 +1,115 @@
+﻿@model EWareShop.Models.TaiKhoan
+@{
+    ViewBag.Title = "Đăng ký thành viên";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="col-md-5">
+        <form class="form" asp-controller="TaiKhoan" asp-action="DangKy" method="post">
+            <h1>Đăng ký thành viên</h1>
+            <div class="form-group">
+                <label asp-for="HoTen"></label>
+                <input class="form-control" asp-for="HoTen">
+                <span asp-validation-for="HoTen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input class="form-control" id="email" asp-for="Email" onblur="kiemtratontai()">
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <span id="loiemail" style="color:red;"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MatKhau"></label>
+                <input class="form-control" asp-for="MatKhau">
+                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MatKhauNhapLai"></label>
+                <input class="form-control" asp-for="MatKhauNhapLai">
+                <span asp-validation-for="MatKhauNhapLai" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Mã xác thực</label>
+                <div class="row">
+                    <div class="col-md-7">
+                        <input class="form-control" type="text" id="maxacthuc"><br />
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" id="kiemtraxacthuc" disabled="disabled" onclick="kiemtraxacthuc()">Kiểm tra</button>
+                    </div>
+                </div>
+                <span id="ketquakiemtra"></span>
+                <div>
+                    <button type="button" onclick="guimaxacthuc()" id="guimaxacthuc" disabled="disabled" class="btn btn-primary">Gửi mã xác thực</button>
+                    <span style="color:lawngreen;" id="dagui"></span>
+                </div>
+                
+            </div>
+            <div class="padding-top-20">
+                <input type="submit" class="btn btn-primary" id="dangky" disabled="disabled" value="Đăng ký" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function guimaxacthuc()
+    {
+        
+        $(document).ready(function () {
+            $.ajax({
+                url: '/TaiKhoan/GuiMaXacThuc',
+                type: 'GET',
+                data: { "email": $('#email').val() },
+                success: function (rs) {
+                    $('#dagui').text(rs);
+                }
+            });
+        });
+    }
+    function kiemtraxacthuc() {
+        $(document).ready(function () {
+            $.ajax({
+                url: '/TaiKhoan/KiemTraXacThuc',
+                type: 'GET',
+                data: { "maxacthuc": $('#maxacthuc').val() },
+                success: function (rs) {
+                    if (rs == "1")
+                    {
+                        $('#ketquakiemtra').css("color", "green");
+                        $('#ketquakiemtra').text("Xác thực thành công");
+                        document.getElementById("dangky").disabled = false;
+                    }
+                    else {
+
+                        $('#ketquakiemtra').css("color", "red");
+                        $('#ketquakiemtra').text("Mã xác thực không đúng, vui lòng kiểm tra lại");
+                    }
+
+                }
+            });
+        });
+    }
+    function kiemtratontai()
+    {
+        $(document).ready(function () {
+            $.ajax({
+                url: '/TaiKhoan/KiemTraTonTai',
+                type: 'GET',
+                data: { "email": $('#email').val() },
+                success: function (rs) {
+                    if (rs == "0") {
+                        $('#loiemail').text("Email này đã tồn tại");
+                        document.getElementById("guimaxacthuc").disabled = true;
+                        document.getElementById("kiemtraxacthuc").disabled = true;
+                    }
+                    else {
+                        $('#loiemail').text("");
+                        document.getElementById("guimaxacthuc").disabled = false;
+                        document.getElementById("kiemtraxacthuc").disabled = false;
+                    }
+                }
+            });
+        });
+    }
+   
+</script>

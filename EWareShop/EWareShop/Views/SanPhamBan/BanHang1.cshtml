@@ -1,0 +1,182 @@
+﻿@model EWareShop.Models.DuLieuBanHang
+@{
+    ViewData["Title"] = "Bán hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var dsSanPhamChonBan = (List<EWareShop.Models.SanPhamChon>)ViewBag.dsSanPhamChonBan;
+    var khachHangHienTai = (EWareShop.Models.KhachHang)ViewBag.khachHangHienTai;
+}
+
+<h3>Thông tin khách hàng</h3>
+<div class="thongtinkh">
+    <div class="row">
+        <div class="col-md-2">
+            <label>Họ tên khách hàng</label>
+        </div>
+        <div class="col-md-9">
+            <label>@khachHangHienTai.HoTenKhachHang</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Số điện thoại</label>
+        </div>
+        <div class="col-md-9">
+            <label>@khachHangHienTai.SoDienThoai</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Email</label>
+        </div>
+        <div class="col-md-9">
+            <label>@khachHangHienTai.Email</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Địa chỉ</label>
+        </div>
+        <div class="col-md-9">
+            <label>@khachHangHienTai.DiaChi</label>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Danh sách sản phẩm  </h3>
+        <div class="row">
+            <form asp-action="BanHang1" method="get">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Loại sản phẩm</label>
+                        <select class="form-control" name="loaisanpham">
+                            @foreach (var lsp in Model.DSLoaiSanPham)
+                            {
+                                if (ViewBag.LoaiSanPham == @lsp.TenLoaiSPKhongDau)
+                                {
+                                    <option selected="selected" value="@lsp.TenLoaiSPKhongDau">@lsp.TenLoaiSPCoDau</option>
+                                }
+                                else
+                                {
+                                    <option value="@lsp.TenLoaiSPKhongDau">@lsp.TenLoaiSPCoDau</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Nhập từ khóa</label>
+                        <input class="form-control" value="@ViewBag.TuKhoa" name="tukhoa" placeholder="Nhập từ khóa">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>&nbsp;</label><br />
+                        <input type="submit" value="Tìm" class="btn btn-default" />
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-10">
+                <table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                        <tr class="headings">
+                            <th>Sản phẩm </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sp in Model.DSSanPham)
+                        {
+                            <tr style="cursor:pointer;">
+                                <td class="sanpham" data-idsp="@sp.SanPhamID" data-tensp="@sp.TenSPCoDau">@sp.TenSPCoDau</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>    
+            </div>
+
+        </div>
+        
+    </div>
+    <div class="col-sm-6">
+        <h3>Nhập thông tin sản phẩm</h3>
+        <form asp-action="ChonSanPham" id="formchonsanpham">
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input id="tenSP" class="form-control"  placeholder="Nhập từ khóa">
+                <input id="idSP" name="idSanPham" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label>Nhập mã bảo hành</label>
+                <input class="form-control" type="text" name="mabaoHanh" id="mabaohanh" placeholder="Nhập từ khóa">
+            </div>
+            <div class="form-group">
+                <input type="button" id="xacnhan" value="Xác nhận" class="btn btn-default" />
+                <span class="text-danger" style="color:red;" id="loikhonghople"></span>
+            </div>
+        </form>
+        
+        <hr />
+        <h3>Danh sách sản phẩm đã chọn</h3>
+        <div id="danhsachsanphammua">
+            <table class="table table-striped jambo_table bulk_action">
+                <thead>
+                    <tr class="headings">
+                        <th width="50%">Sản phẩm </th>
+                        <th width="40%">Ma bao hanh</th>
+                        <th width="10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var spcb in dsSanPhamChonBan)
+                    {
+                    <tr class="even pointer">
+                        <td>@spcb.SanPham.TenSPCoDau</td>   
+                        <td>@spcb.MaBaoHanh</td>
+                        <td><a class="btn btn-danger btn-xs"  asp-action="XoaSanPhamChon" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@spcb.MaBaoHanh"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <a class="btn btn-primary btn-lg" asp-action="XacNhanBan"><i class="fa fa-trash-o"></i>Hoàn tất</a>
+    </div>
+</div>
+@section BanHang_Scripts
+{
+    <script>
+        $('.sanpham').off('click').on('click', function () {
+            var idSP = $(this).data('idsp');
+            var tenSP = $(this).data('tensp');
+            $('#tenSP').val(tenSP);
+            $('#idSP').val(idSP);
+        });
+
+        $(document).ready(function () {
+            $('#xacnhan').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "/SanPhamBan/KiemTraMaBaoHanh",
+                    data: { "maBaoHanh": $('#mabaohanh').val() },
+                    success: function (rs) {
+                        if (rs == "0")
+                        {
+                            $('#loikhonghople').text('Mã bảo hành không hợp lệ !');
+                        }
+                        else
+                        {
+                            $('#formchonsanpham').submit();
+                        }
+                    }
+                })
+            });
+        });
+
+    </script>
+}

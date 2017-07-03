@@ -1,0 +1,24 @@
+﻿@model IEnumerable<EWareShop.Models.LoaiSanPham>
+@{
+    ViewData["Title"] = "Sản phẩm";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+    <!--Danh sach sản phẩm-->
+    <div class="col-md-9 col-sm-8">
+        @foreach (var lsp in Model)
+        {
+            <div style="text-align:center; font-weight:bold;background-color:#66FFCC;font-size:20px; padding-top:5px;padding-bottom:5px;">@lsp.TenLoaiSPCoDau @lsp.LoaiSanPhamID</div><br />
+            @await Component.InvokeAsync("DSSanPhamKhuyenMaiComponent", lsp.LoaiSanPhamID)
+        }
+    </div>
+ </div>
+<script>
+    var nf = Intl.NumberFormat();
+    var x = 42000000;
+    alert(nf.format(x));
+</script>

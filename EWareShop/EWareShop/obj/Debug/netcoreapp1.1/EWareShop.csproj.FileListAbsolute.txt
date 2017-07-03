@@ -1,0 +1,9 @@
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\bin\Debug\netcoreapp1.1\EWareShop.deps.json
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\bin\Debug\netcoreapp1.1\EWareShop.runtimeconfig.json
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\bin\Debug\netcoreapp1.1\EWareShop.runtimeconfig.dev.json
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\bin\Debug\netcoreapp1.1\EWareShop.dll
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\obj\Debug\netcoreapp1.1\EWareShop.AssemblyInfo.cs
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\bin\Debug\netcoreapp1.1\EWareShop.pdb
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\obj\Debug\netcoreapp1.1\EWareShop.dll
+c:\users\justice\documents\visual studio 2017\Projects\EWareShop\EWareShop\obj\Debug\netcoreapp1.1\EWareShop.pdb
+C:\Users\JUSTICE\documents\visual studio 2017\Projects\EWareShop\EWareShop\obj\Debug\netcoreapp1.1\EWareShop.csprojResolveAssemblyReference.cache

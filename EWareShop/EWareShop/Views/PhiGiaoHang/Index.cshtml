@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EWareShop.Models.PhiGiaoHang>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<a class="btn btn-success btn-xs" asp-action="Create"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+<div class="row">
+    <div class="col-sm-7">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+
+                    <th width="10%">ID </th>
+                    <th width="45%">Tỉnh / Thành phố</th>
+                    <th width="25%">Phí vận chuyển</th>
+                    <th width="10%"> Sửa</th>
+                    <th width="10%"> Xóa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var pgh in Model)
+            {
+                    <tr class="even pointer">
+                        <td class=" ">@pgh.PhiGiaoHangID</td>
+                        <td class=" ">@pgh.DiaDiem</td>
+                        <td class=" "> @Html.DisplayFor(modelItem => pgh.TienPhi)</td>
+                        <td class=""><a class="btn btn-primary btn-xs" asp-action="Edit" asp-route-id="@pgh.PhiGiaoHangID"><i class="fa fa-edit"></i>Sửa</a></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@pgh.PhiGiaoHangID"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

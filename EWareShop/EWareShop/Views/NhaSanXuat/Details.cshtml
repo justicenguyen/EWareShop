@@ -1,0 +1,30 @@
+@model EWareShop.Models.NhaSanXuat
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>NhaSanXuat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TenNSXCoDau)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TenNSXCoDau)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TenNSXKhongDau)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TenNSXKhongDau)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.NhaSanXuatID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

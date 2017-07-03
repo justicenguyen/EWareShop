@@ -1,0 +1,65 @@
+﻿@model EWareShop.Models.DuLieuSanPhamAdmin
+
+<!--San pham-->
+<div class="col-md-3" style="min-height:1px;">
+    <div class="thumbnail">
+        <div class="image view view-first" style="min-height:1px;">
+            <img style="width: 100%; display: block;" src="/@Model.SanPham.HinhAnh" alt="image" />
+        </div>
+        <div class="caption">
+            <h5><b>@Model.SanPham.TenSPCoDau</b></h5>
+            <p><b>Giá gốc : @Html.DisplayFor(modelItem => Model.SanPham.GiaGoc) đ</b></p>
+            <p><b>Giá KM : @Html.DisplayFor(modelItem => Model.SanPham.GiaGiam) đ </b></p>
+            <p><b>Số lượng : @Model.SanPham.SoLuong </b></p>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" style="width:20px;height:20px;" class="hienthi" data-idsp="@Model.SanPham.SanPhamID" @(Model.SanPham.HienThi ? "checked=checked" : "" )> <span style="margin-top:5px;"><b>&nbsp;Hiển thị trang chủ</b></span>
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" style="width:20px;height:20px;" class="spbanchay" data-idsp="@Model.SanPham.SanPhamID" @(Model.SanPham.SanPhamBanChay ? "checked=checked" : "" )> <span style="margin-top:5px;"><b>&nbsp;Sản phẩm bán chạy</b></span>
+                </label>
+            </div>
+            <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal_@Model.SanPham.SanPhamID"><i class="fa fa-gift"></i> Quà tặng</a>
+            <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@Model.SanPham.SanPhamID"><i class="fa fa-pencil"></i> Sửa </a>
+            <a class="btn btn-danger btn-sm" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@Model.SanPham.SanPhamID"><i class="fa fa-trash-o"></i> Xóa</a>
+           
+        </div>
+    </div>
+</div>
+<!--End San Pham-->
+
+<div class="modal fade" id="myModal_@Model.SanPham.SanPhamID" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Quà tặng</h4>
+                <h4 class="modal-title"> Sản phẩm : @Model.SanPham.TenSPCoDau</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @foreach(var ctqt in Model.DanhSachTatCaQuaTang)
+                    {
+                        var coQuaTang = false;
+                        foreach(var kt in Model.DanhSachQuaTangCuaSanPham)
+                        {
+                            if(kt.QuaTangID==ctqt.QuaTangID)
+                            {
+                                coQuaTang = true;break;
+                            }
+                        }
+                        <div class="col-sm-6">
+                            <input type="checkbox" style="width:20px;height:20px;" class="quatang" data-maqt="@ctqt.QuaTangID" data-idsp="@Model.SanPham.SanPhamID"    @(coQuaTang ? "checked=checked" : "" ) ><span style="margin-top:5px;"><b>&nbsp;@ctqt.TenQuaTang</b></span>
+                        </div>
+                    }
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+</div>

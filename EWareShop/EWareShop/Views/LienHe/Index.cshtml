@@ -1,0 +1,63 @@
+﻿@model IEnumerable<EWareShop.Models.LienHe>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+
+                    <th width="5%">ID</th>
+                    <th width="15%">Họ tên</th>
+                    <th width="15%">Email</th>
+                    <th width="10%">Số ĐT</th>
+                    <th width="30%">Vấn đề</th>
+                    <th width="15%">Ngày gửi</th>
+                    <th width="5%">Đã TL</th>
+                    <th width="5%"> Xóa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var lh in Model)
+            {
+                    <tr class="even pointer">
+                        <td class=" ">@lh.LienHeID</td>
+                        <td class=" ">@lh.HoTen</td>
+                        <td class=" ">@lh.Email</td>
+                        <td class=" ">@lh.SoDienThoai</td>
+                        <td class=" ">@lh.VanDe</td>
+                        <td class=" ">@lh.NgayGui</td>
+                        <td class=""><input type="checkbox" @(lh.DaTraLoi ? "checked=checked" : "") style="width:20px;height:20px;" class="datraloi" data-idlh="@lh.LienHeID"/></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@lh.LienHeID"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section LienHeIndex_Scripts
+{
+    <script>
+        $('.datraloi').off('click').on('click', function () {
+            var idlh = $(this).data('idlh');
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: "/LienHe/ThayDoiDaTraLoi",
+                    data: { "idlh": idlh },
+                    success: function (rs) {
+                        alert(rs);
+                    }
+                })
+        });
+    </script>
+}
+
+

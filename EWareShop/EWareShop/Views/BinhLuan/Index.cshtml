@@ -1,0 +1,138 @@
+﻿@model EWareShop.Models.DuLieuBinhLuanIndex
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Danh sách bình luận</h2>
+<a class="btn btn-success btn-xs" asp-action="Create"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+
+<!--Trang sản phẩm-->
+<div class="row">
+    <div class="btn-group pull-right">
+        @{
+            if (Model.SoTrangSanPham != 1)
+            {
+                if (Model.TrangHienTai != 1)
+                {
+                    <button class="btn btn-primary" onclick="trang(@(Model.TrangHienTai-1))" type="button">Trước</button>
+                }
+                for (int i = 1; i <= Model.SoTrangSanPham; i++)
+                {
+                    if (Model.TrangHienTai == i)
+                    {
+                        <button class="btn btn-danger" disabled type="button">@i</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" onclick="trang(@i)" type="button">@i</button>
+                    }
+                }
+                if (Model.TrangHienTai != Model.SoTrangSanPham && Model.SoTrangSanPham != 0)
+                {
+                    <button class="btn btn-primary" onclick="trang(@(Model.TrangHienTai+1))" type="button">Sau</button>
+                }
+            }
+        }
+
+    </div>
+</div>
+<!-- end Trang sản phẩm-->
+<br />
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+                    <th width="15%">Sản phẩm</th>
+                    <th width="15%">Tên khach hàng</th>
+                    <th width="15%">Email</th>
+                    <th width="10%">Số điện thoại</th>
+                    <th width="20%">nội dung</th>
+                    <th width="10%">Thời gian</th>
+                    <th width="5%">Số sao</th>
+                    <th width="5%">Duyệt</th>
+                    <th width="5%"> Xóa</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bl in Model.DSBinhLuan)
+            {
+                    <tr class="even pointer">
+                        <td class=" ">@bl.SanPhamID</td>
+                        <td class=" ">@bl.HoTen</td>
+                        <td class=" ">@bl.Email</td>
+                        <td class=" ">@bl.SoDienThoai</td>
+                        <td class=" ">@bl.NoiDung</td>
+                        <td class=" ">@bl.ThoiGian</td>
+                        <td class=" ">@bl.SoSao</td>
+                        <td class=" "><input type="checkbox" style="width:20px;height:20px;" data-idbl="@bl.BinhLuanID" class="kiemduyet" @(bl.KiemDuyet ? "checked=checked" : "" )></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@bl.BinhLuanID"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--Form Bộ lọc có theo trang-->
+<form id="boloc" asp-controller="BinhLuan" asp-action="Index" method="get">
+    <input type="hidden" id="trangsp" name="trang" />
+</form>
+
+<!--Trang sản phẩm-->
+<div class="row">
+    <div class="btn-group pull-right">
+        @{
+            if (Model.SoTrangSanPham != 1)
+            {
+                if (Model.TrangHienTai != 1)
+                {
+                    <button class="btn btn-primary" onclick="trang(@(Model.TrangHienTai-1))" type="button">Trước</button>
+                }
+                for (int i = 1; i <= Model.SoTrangSanPham; i++)
+                {
+                    if (Model.TrangHienTai == i)
+                    {
+                        <button class="btn btn-danger" disabled type="button">@i</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" onclick="trang(@i)" type="button">@i</button>
+                    }
+                }
+                if (Model.TrangHienTai != Model.SoTrangSanPham && Model.SoTrangSanPham != 0)
+                {
+                    <button class="btn btn-primary" onclick="trang(@(Model.TrangHienTai+1))" type="button">Sau</button>
+                }
+            }
+        }
+
+    </div>
+</div>
+<!-- end Trang sản phẩm-->
+
+@section BinhLuan_Scripts{
+    <script>
+        $('.kiemduyet').off('click').on('click', function () {
+            var idbl = $(this).data('idbl');
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: "/BinhLuan/ThayDoiKiemDuyet",
+                    data: { "idbl": idbl },
+                    success: function (rs) {
+                        alert(rs);
+                    }
+                })
+        });
+
+        function trang(trang) {
+            $('#trangsp').val(trang);
+            $('#boloc').submit();
+
+        }
+
+    </script>
+}

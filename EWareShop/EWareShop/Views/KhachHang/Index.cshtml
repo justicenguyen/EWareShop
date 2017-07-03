@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EWareShop.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<a class="btn btn-success btn-xs" asp-action="Create"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+<div class="row">
+    <div class="col-sm-9">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+                    <th width="5%">ID </th>
+                    <th width="25%">Họ tên khách hàng </th>
+                    <th width="10%">Số điện thoại </th>
+                    <th width="35%">Địa chỉ </th>
+                    <th width="15%">Email </th>
+                    <th width="5%"> Sửa</th>
+                    <th width="5%"> Xóa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var kh in Model)
+            {
+                    <tr style="cursor:pointer;" class="even pointer">
+                        <td class=" ">@kh.KhachHangID</td>
+                        <td class=" ">@kh.HoTenKhachHang</td>
+                        <td class=" ">@kh.SoDienThoai</td>
+                        <td class=" ">@kh.DiaChi</td>
+                        <td class=" ">@kh.Email</td>
+                        <td class=""><a class="btn btn-primary btn-xs" asp-action="Edit" asp-route-id="@kh.KhachHangID"><i class="fa fa-edit"></i>Sửa</a></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@kh.KhachHangID"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

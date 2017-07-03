@@ -1,0 +1,42 @@
+﻿@model EWareShop.Models.TaiKhoan
+@{
+    ViewBag.Title = "Thông tin tài kh";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("TaiKhoanSideBarComponent")
+    </div>
+    <div class="col-md-9 col-sm-8">
+        <h4>Thông tin tài khoản</h4>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Họ và tên :</label>
+            </div>
+            <div class="col-md-3">
+                <label>@Model.HoTen</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Email</label>
+            </div>
+            <div class="col-md-3">
+                <label>@Model.Email</label>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Mật khẩu :</label>
+            </div>
+            <div class="col-md-3">
+                <label>**********</label>
+            </div>
+            <div class="col-md-2">
+                <a asp-controller="TaiKhoan" asp-action="DoiMatKhau">Thay đổi</a>
+            </div>
+        </div>
+    </div>
+</div>

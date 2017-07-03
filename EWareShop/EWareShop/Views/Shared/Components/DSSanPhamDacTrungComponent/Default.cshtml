@@ -1,0 +1,59 @@
+﻿@model IEnumerable<EWareShop.Models.SanPham>
+<!-- BEGIN CONTENT  danh sách sản phẩm-->
+<h2>Các sản phẩm đặc trưng của cửa hàng</h2>
+@*<div class="row" style="margin-top:20px;">*@
+    @{ int dem = 0;}
+    @foreach (var spdt in Model)
+    {
+
+        if (dem % 4 == 0)
+        {
+            @:<div class="row" style="margin-top:20px;">
+        }
+        dem++;
+
+        <div class="col-md-3">
+            <div class="product-item">
+                <div class="pi-img-wrapper" style="height:160px;">
+                    <img src="/@spdt.HinhAnh" class="img-responsive" alt="Berry Lace Dress">
+                    <div>
+                        <a  class="btn btn-default" onclick="themgiohang(@spdt.SanPhamID)">Thêm <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                        <a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spdt.TenSPKhongDau" class="btn btn-default fancybox-fast-view">Xem</a>
+                    </div>
+                </div>
+                <h3><a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spdt.TenSPKhongDau">@spdt.TenSPCoDau</a></h3>
+                <div class="pi-price" style="font-size:20px;">@Html.DisplayFor(modelItem => spdt.GiaBan) đ</div>
+                <div style="clear:both;">
+                    @{
+                        if (spdt.GiaGiam != 0)
+                        {
+                            @: <span style="text-decoration:line-through;">@Html.DisplayFor(modelItem => spdt.GiaGoc) đ</span>&nbsp;<span style="background-color:red;">-@(spdt.GiaGiam * 100 / spdt.GiaGoc) %</span>
+                                <div class="sticker sticker-sale"></div>
+                        }
+                    }
+                    &nbsp;
+                </div>
+
+            </div>
+        </div>
+            @if (dem % 4 == 0)
+            {
+                @:</div>
+            }
+            else
+            {
+                if(dem==Model.Count())
+                {
+                    @:</div>
+                }
+            }
+
+
+                        }
+@*</div>*@
+
+
+
+
+
+<!-- END CONTENT  danh sách sản phẩm-->

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>@ViewData["Title"]</title>
+
+    <!-- Bootstrap -->
+    <link href="/frontend_admin/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="/frontend_admin/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Custom styling plus plugins -->
+    <link href="/frontend_admin/build/css/custom.min.css" rel="stylesheet">
+    <style>
+    </style>
+    
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Cửa hàng</h3>
+                            <ul class="nav side-menu">
+                                <li><a asp-controller="LoaiSanPham" asp-action="Index"><i class="fa fa-plus-square-o"></i> Quản lý loại sản phẩm</a></li>
+                                <li><a asp-controller="SanPham" asp-action="Index"><i class="fa fa-laptop"></i> Quản lý sản phẩm</a></li>
+                                <li><a asp-controller="NhaSanXuat" asp-action="Index"><i class="fa fa-home"></i> Quản lý nhà sản xuất</a></li>
+                                <li><a asp-controller="QuaTang" asp-action="Index"><i class="fa fa-home"></i> Quản lý mục quà tặng</a></li>
+                                <li><a asp-controller="KhuyenMai" asp-action="Index"><i class="fa fa-home"></i> Quản lý chương trình khuyến mãi</a></li>
+                                <li><a asp-controller="PhiGiaoHang" asp-action="Index"><i class="fa fa-archive"></i> Quản lý phí giao hàng</a></li>
+                                <li><a asp-controller="LienHe" asp-action="Index"><i class="fa fa-archive"></i> Quản lý Liên hệ</a></li>
+                                <li><a asp-controller="BinhLuan" asp-action="Index"><i class="fa fa-archive"></i> Quản lý bình luận</a></li>
+                                <li><a asp-controller="TaiKhoan" asp-action="Index"><i class="fa fa-user"></i> Quản lý tài khoản</a></li>
+                                <li><a asp-controller="DonHang" asp-action="Index"><i class="fa fa-truck"></i> Quản lý đơn đặt hàng<span class="badge bg-red">6</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="menu_section">
+                            <h3>Cá nhân</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-user"></i> QL Thông tin cá nhân <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a asp-controller="TaiKhoan" asp-action="DoiMatKhauCap1">Đổi mật khẩu cấp 1</a></li>
+                                        <li><a  asp-controller="TaiKhoan" asp-action="DoiMatKhauCap2">Đổi mật khẩu cấp 2</a></li>
+                                        <li><a asp-controller="TaiKhoan" asp-action="DangXuat">Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                </div>
+            </div>
+            <!--Thanh menu ngang Admin-->
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!--Thanh menu ngang Admin-->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <!-- ***********************dau*************************-->
+                @RenderBody()
+                <!--************************cuoi************************-->
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="/frontend_admin/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/frontend_admin/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="/frontend_admin/build/js/custom.min.js"></script>
+    @RenderSection("ckeditor", false)
+    @RenderSection("SanPhamIndex_Scripts",false)
+    @RenderSection("DonHang_Scripts",false)
+    @RenderSection("BanHang_Scripts", false)
+    @RenderSection("KhachHang_Scripts", false)
+    @RenderSection("BinhLuan_Scripts", false)
+    @RenderSection("KhuyenMai_Edit_Scripts", false)
+    @RenderSection("SanPham_Edit_Scripts", false)
+    @RenderSection("KhuyenMai_Index_Scripts", false)
+    @RenderSection("ChiTietDonHang_Scripts", false)
+    @RenderSection("LienHeIndex_Scripts", false)
+</body>
+</html>

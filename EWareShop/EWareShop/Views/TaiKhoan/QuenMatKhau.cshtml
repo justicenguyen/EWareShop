@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Quên mật khẩu";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="col-md-5 col-sm-8">
+        <h1>Quên mật khẩu</h1>
+        <form class="form">
+            <div class="form-group">
+                <label>Nhập Email tài khoản thành viên</label>
+                <input class="form-control" id="email" type="email">
+                <span style="color:green" id="ketqua"></span>
+            </div>
+            <div class="padding-top-20">
+                <input type="button" class="btn btn-primary" onclick="guimatkhau()" value="Gửi mật khẩu" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function guimatkhau() {
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '/TaiKhoan/GuiMatKhau',
+                type: 'GET',
+                data: { "email": $('#email').val() },
+                success: function (rs) {
+                    $('#ketqua').text(rs);
+                }
+            });
+        });
+    }
+</script>

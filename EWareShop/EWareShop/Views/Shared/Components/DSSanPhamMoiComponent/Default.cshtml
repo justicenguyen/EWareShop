@@ -1,0 +1,40 @@
+﻿@model IEnumerable<EWareShop.Models.SanPham>
+<!-- BEGIN SALE PRODUCT & NEW ARRIVALS -->
+<br />
+<div class="row margin-bottom-40">
+    <!-- BEGIN SALE PRODUCT -->
+    <div class="col-md-12 sale-product">
+        <h2>Danh sách sản phẩm mới</h2>
+        <div class="row">
+            @foreach (var spm in Model)
+            {
+                <div class="col-md-2">
+                    <div class="product-item">
+                        <div class="pi-img-wrapper" style="height:150px;">
+                            <img src="/@spm.HinhAnh" class="img-responsive" alt="Berry Lace Dress">
+                            <div>
+                                <a class="btn btn-default" onclick="themgiohang(@spm.SanPhamID)"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                <a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spm.TenSPKhongDau" class="btn btn-default fancybox-fast-view">Xem</a>
+                            </div>
+                        </div>
+                        <h3><a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spm.TenSPKhongDau">@spm.TenSPCoDau</a></h3>
+                        <div class="pi-price" >@Html.DisplayFor(modelItem => spm.GiaBan) vnd </div>
+                        <div style="clear:both;">
+                            @{
+                                if (spm.GiaGiam != 0)
+                                {
+                                 @: <span style="text-decoration:line-through;">@Html.DisplayFor(modelItem => spm.GiaGoc) vnd</span>&nbsp;<span style="background-color:red;">-@(spm.GiaGiam*100/spm.GiaGoc) %</span>
+                                <div class="sticker sticker-sale"></div>
+                                }
+                            }
+                            &nbsp;
+                        </div>
+                        <div class="sticker sticker-new"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- END SALE PRODUCT -->
+</div>
+<!-- BEGIN SIDEBAR & CONTENT -->

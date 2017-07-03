@@ -1,0 +1,129 @@
+﻿@model List<EWareShop.Models.SanPhamGioHang>
+    @{
+        ViewData["Title"] = "Giỏ hàng";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+<div>
+    
+    <div class="row">
+        <form asp-controller="GioHang" asp-action="DatHang" method="post" class="form">
+            <div class="span3">
+                <h3>Thông tin đặt hàng</h3>
+
+                <div class="row">
+                    <div class="span1"> 
+                        <b>Họ và tên</b>
+                    </div>
+                    <div class="span2">
+                        <input type="text" class="form-control" style="width:100%;" id="hoten" name="TenKhachHang" placeholder="Nhập họ và tên (bắt buộc)"><br />
+                        <span class="text-danger" style="color:red;" id="loihoten"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span1">
+                        <b>Số điện thoại</b>
+                    </div>
+                    <div class="span2">
+                        <input type="text" class="form-control" style="width:100%;" id="hoten" name="SoDienThoai" placeholder="Nhập SDT(bắt buộc)"><br />
+                        <span class="text-danger" style="color:red;" id="loihoten"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span1">
+                        <b>Email</b>
+                    </div>
+                    <div class="span2">
+                        <input type="text" class="form-control" style="width:100%;" id="hoten" name="Email" placeholder="Nhập Email"><br />
+                        <span class="text-danger" style="color:red;" id="loihoten"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span1">
+                        <b>Địa chỉ</b>
+                    </div>
+                    <div class="span2">
+                        <input type="text" class="form-control" style="width:100%;" id="hoten" name="DiaChi" placeholder="Nhập địa chỉ(bắt buộc)"><br />
+                        <span class="text-danger" style="color:red;" id="loihoten"></span>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="span1">
+                    </div>
+                    <div class="span2">
+                        <input type="submit" class="btn btn-primary"  value="Đặt hàng"/>
+                    </div>
+                </div>
+
+            </div>
+            </form>
+
+            <div class="span6" style="border-left:1px;">
+                <h3>Giỏ Hàng</h3>
+                <table border="1" style="width:100%;">
+                    <tr>
+                        <th>STT</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá</th>
+                        <th width="5px;">Số lượng</th>
+                        <th colspan="2">Tổng tiền</th>
+                        <th></th>
+                    </tr>
+                    @{ int stt = 0;}
+                    @foreach (var spgh in Model)
+                    {
+
+                        <tr id="spgh_@spgh.SanPhamGioHangID">
+                            <th>@stt</th>
+                            <td><img src="~/@spgh.HinhAnh" class="img-responsive" alt="Cinque Terre"></td>
+                            <td>@spgh.TenSP</td>
+                            <td>@spgh.Gia</td>
+                            <td width="5px;"><input type="text" style="width:20px;" id="sl_@spgh.SanPhamGioHangID" onchange="tongtien(@spgh.SanPhamGioHangID,@spgh.Gia,@spgh.SoLuong);" value="@spgh.SoLuong" /></td>
+                            <td><span id="tongtien_@spgh.SanPhamGioHangID">@spgh.TongTien</span>  vnđ</td>
+                            <th><button class="btn btn-danger" onclick="xoaSP(@spgh.SanPhamGioHangID);">Xóa</button></th>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+
+</div>
+</div>
+
+    
+<script>
+        function xoaSP(id) {
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/Giohang/XoaGioHang',
+                    type: 'GET',
+                    data: { "idSP": id },
+                    success: function (c) {
+                        $('#spgh_'+id).remove();
+                    }
+
+                });
+            });
+    }
+    
+    // Tinh tong tien cac san pham trong gio hang
+        function tongtien(id, gia, soluongcu) {
+            var slmoi = $('#sl_' + id).val();
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/Giohang/SuaGioHang',
+                    type: 'GET',
+                    data: { "idSP": id, "soLuong": slmoi - soluongcu },
+                    success: function (c) {
+                        $('#tongtien_' + id).html($('#sl_' + id).val() * gia);
+                    }
+
+                });
+            });
+        }
+</script>

@@ -1,0 +1,21 @@
+﻿@model EWareShop.Models.KhuyenMai
+
+@{
+    ViewData["Title"] = "Chương trình khuyến mãi";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+
+
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+
+    <div class="col-md-9 col-sm-8">
+        <img style="width:100%" src="~/@Model.HinhAnh" alt="special offers" />
+        <h2>@Model.TieuDeKhuyenMai</h2>
+        <div>
+            @Html.Raw(Model.NoiDung)
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+@model EWareShop.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaiKhoan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TenDangNhap)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TenDangNhap)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MatKhauCap1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MatKhauCap1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MatKhauCap2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MatKhauCap2)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TaiKhoanID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

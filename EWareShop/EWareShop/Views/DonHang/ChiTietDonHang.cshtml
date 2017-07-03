@@ -1,0 +1,140 @@
+﻿@model EWareShop.Models.DuLieuChiTietDonHang
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var phiGiaoHang = (EWareShop.Models.PhiGiaoHang)ViewBag.phiGiaoHang;
+    var tienPhiShip = 0;
+    if (Model.DonHang.TongTien < 10000000)
+    {
+        tienPhiShip = phiGiaoHang.TienPhi;
+    }
+    var tongTien = Model.DonHang.TongTien - tienPhiShip;
+}
+<h2>Chi tiết đơn hàng</h2>
+<div class="thongtinkh">
+    <div class="row">
+        <div class="col-md-2">
+            <label>Họ tên khách hàng</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.DonHang.TenKhachHang</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Số điện thoại</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.DonHang.SoDienThoai</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Email</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.DonHang.Email</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Địa chỉ Ship</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.DonHang.DiaChi</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Tổng tiền</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Html.DisplayFor(modelItem => Model.DonHang.TongTien)</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Đã duyệt</label>
+        </div>
+        <div class="col-md-9">
+            <label>@(Model.DonHang.DaDuyet ? "Đã duyệt" : "Chưa duyệt")</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Đã giao</label>
+        </div>
+        <div class="col-md-9">
+            <label>@(Model.DonHang.DaGiao ? "Đã giao" : "Chưa giao")</label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+                    <th width="40%">Tên sản phẩm</th>
+                    <th width="20%">Giá</th>
+                    <th width="10%">Số lượng</th>
+                    <th width="20%">Tổng tiền</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mh in Model.ChiTietDonHang)
+            {
+                    <tr class="mathang">
+                        <td class="">@mh.SanPham.TenSPCoDau</td>
+                        <td class=""> @Html.DisplayFor(modelItem => mh.SanPham.GiaBan) vnd</td>
+                        <td class="">@mh.SoLuong</td>
+                        <td class=""> @Html.DisplayFor(modelItem => mh.TongTien) vnd</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="pull-right"><label>Tổng tiền :</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <label><span id="tongtien">@tongTien</span> vnd</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="pull-right"><label>Phí vận chuyển :</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <label><span id="phiship">@tienPhiShip</span> vnd</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="pull-right"><label>Tất cả :</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="pull-right">
+                    <label> @Html.DisplayFor(modelItem => Model.DonHang.TongTien) vnd</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section ChiTietDonHang_Scripts{
+    <script>
+        var tongtien = @tongTien;
+        var tongtienhienthi = tongtien.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        $('#tongtien').html(tongtienhienthi);
+        var tienship =@tienPhiShip;
+        var tienshiphienthi = tienship.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        $('#phiship').html(tienshiphienthi);
+    </script>
+}

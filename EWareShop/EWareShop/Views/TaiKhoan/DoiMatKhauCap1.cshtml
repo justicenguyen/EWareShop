@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Đổi mật khẩu cấp 1";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div>
+        <form class="form-horizontal" asp-action="DoiMatkhauCap1">
+            <div class="form-group">
+                <label class="control-label col-sm-3"></label>
+                <div class="col-sm-5">
+                    <h1>Thay đổi mật khẩu cấp 1</h1>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3"></label>
+                <div class="col-sm-5">
+                    @if (!String.IsNullOrEmpty(ViewBag.ketQua))
+                    {
+                        <span class="text-danger">@ViewBag.ketQua</span>
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">MK cấp 1 hiện tại</label>
+                <div class="col-sm-5">
+                    <input type="password" name="matkhauht" class="form-control" placeholder="Nhập mật khẩu cấp 1 hiện tại" required>
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">MK cấp 1 mới</label>
+                <div class="col-sm-5">
+                    <input type="password" id="matkhaumoi1" class="form-control" placeholder="Nhập mật khẩu mới" required>
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">Nhập lại</label>
+                <div class="col-sm-5">
+                    <input type="password" id="matkhaumoi2" onblur="kiemtra()" class="form-control" placeholder="Nhập lại mật khẩu mới" required>
+                    <span class="text-danger" id="loi"></span>
+                </div>
+            </div>
+            <input type="hidden" name="matkhaumoi" id="matkhaumoi" />
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-5">
+                    <input type="submit" value="Xác nhận" class="btn btn-default" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    function kiemtra()
+    {
+        if ($('#matkhaumoi1').val() != $('#matkhaumoi2').val())
+        {
+            $('#loi').text("Mật khẩu nhập lại không trùng khớp");
+        }
+        else {
+            $('#loi').text("");
+            $('#matkhaumoi').val($('#matkhaumoi2').val());
+        }
+    }
+</script>

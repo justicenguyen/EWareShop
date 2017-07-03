@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Đổi mật khẩu";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("TaiKhoanSideBarComponent")
+    </div>
+    <div class="col-md-5 col-sm-8">
+        <form class="form" asp-controller="TaiKhoan" asp-action="DoiMatKhau" method="post">
+            <h1>Đổi mật khẩu</h1>
+            @if (ViewBag.ketQua!=null)
+            {
+                if (ViewBag.ketQua==0)
+                {
+                    <span style="color:red;">Mật khẩu hiện tại không đúng</span>
+                }
+                else
+                {
+                    <span style="color:green;">Đổi mật khẩu thành công</span>
+                }
+
+            }
+            
+            <div class="form-group">
+                <label>Mật khẩu hiện tại</label>
+                <input class="form-control" type="password" name="matKhauCu" id="matkhaucu">
+                <span style="color:red" id="loimatkhaucu"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Mật khẩu mới</label>
+                <input type="password" class="form-control" name="MatKhauMoi" id="matkhaumoi1">
+                <span style="color:red" id="loimatkhaumoi1"></span>
+            </div>
+            <div class="form-group">
+                <label> Nhập lại mật khẩu</label>
+                <input type="password" class="form-control" onblur="trungkhop()" name="NhapLaimatKhau" id="matkhaumoi2">
+                <span style="color:red" id="loimatkhaumoi2"></span>
+            </div>
+            <div class="padding-top-20">
+                <input type="submit" class="btn btn-primary" onclick="return kiemtra()" value="Đổi mật khẩu" />
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function trungkhop() {
+        if ($('#matkhaumoi1').val() != $('#matkhaumoi2').val()) {
+            $('#loimatkhaumoi2').text("Mật khẩu không trùng khớp");
+        }
+        else {
+            $('#loimatkhaumoi2').text("");
+        }
+    }
+    function kiemtra()
+    {
+        if ($('#matkhaucu').val() == "")
+        {
+            $('#loimatkhaumoi2').text("Bạn chưa nhập đầy đủ thông tin");
+            return false;
+        }
+        if ($('#matkhaumoi1').val() == "") 
+        {
+            $('#loimatkhaumoi2').text("Bạn chưa nhập đầy đủ thông tin");
+            return false
+        }
+        if ($('#matkhaumoi2').val() == "") {
+            $('#loimatkhaumoi2').text("Bạn chưa nhập đầy đủ thông tin");
+            return false;
+        }
+        return true;
+    }
+</script>

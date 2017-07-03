@@ -1,0 +1,39 @@
+﻿@model IEnumerable<EWareShop.Models.LoaiSanPham>
+
+@{
+    ViewData["Title"] = "Loại sản phẩm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<a class="btn btn-success btn-xs" asp-action="Create"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+<div class="row">
+    <div class="col-sm-7">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+
+                    <th width="10%">ID </th>
+                    <th width="35%">Tên loại sản phẩm có dấu </th>
+                    <th width="35%">Tên loại sản phẩm không dấu </th>
+                    <th width="10%"> Sửa</th>
+                    <th width="10%"> Xóa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var lsp in Model)
+            {
+                    <tr class="even pointer">
+                        <td class=" ">@lsp.LoaiSanPhamID</td>
+                        <td class=" ">@lsp.TenLoaiSPCoDau</td>
+                        <td class=" ">@lsp.TenLoaiSPKhongDau</td>
+                        <td class=""><a class="btn btn-primary btn-xs" asp-action="Edit" asp-route-id="@lsp.LoaiSanPhamID"><i class="fa fa-edit"></i>Sửa</a></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@lsp.LoaiSanPhamID"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

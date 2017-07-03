@@ -1,0 +1,42 @@
+@model EWareShop.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>KhachHang</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <input type="hidden" asp-for="ID" />
+        <dt>
+            @Html.DisplayNameFor(model => model.HoTenKhachHang)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HoTenKhachHang)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SoDienThoai)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SoDienThoai)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

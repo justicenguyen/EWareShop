@@ -1,0 +1,16 @@
+﻿@model IEnumerable<EWareShop.Models.NhaSanXuat>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Hãng SX</h4>
+        </div>
+        <div class="col-md-8">
+            <select class="form-control">
+                @foreach (var nsx in Model)
+                {
+                    <option value="@nsx.NhaSanXuatID">@nsx.TenNSXCoDau</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>

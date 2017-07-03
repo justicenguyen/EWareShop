@@ -1,0 +1,54 @@
+﻿@model EWareShop.Models.LienHe
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CLientLayout1.cshtml";
+    var coLienHe = 1;
+    if (!String.IsNullOrEmpty(ViewBag.daGui))
+    {
+        coLienHe = 2;
+    }
+}
+<script>
+    if (@coLienHe==2)
+    {
+        alert("Gửi thông tin liên hệ thành công !")
+    }
+        
+</script>
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+    <div class="col-md-9 col-sm-8">
+        <h2>Liên hệ</h2>
+        <div class="row">
+            <div class="col-md-8">
+                <form class="default-form" asp-controller="LienHe" asp-action="LienHe">
+                    <div class="form-group">
+                        <label asp-for="HoTen" class="control-label col-sm-4"></label>
+                        <input asp-for="HoTen" class="form-control" id="name">
+                        <span asp-validation-for="HoTen" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label col-sm-4"></label>
+                        <input asp-for="Email" class="form-control" id="name">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SoDienThoai" class="control-label col-sm-4"></label>
+                        <input asp-for="SoDienThoai" class="form-control" id="name">
+                        <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="VanDe" class="control-label col-sm-4"></label>
+                        <textarea class="form-control" asp-for="VanDe" rows="8"></textarea>
+                        <span asp-validation-for="VanDe" class="text-danger"></span>
+                    </div>
+                    <div class="padding-top-20">
+                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

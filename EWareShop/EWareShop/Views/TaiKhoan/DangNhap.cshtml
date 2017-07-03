@@ -1,0 +1,29 @@
+﻿@model EWareShop.Models.TaiKhoan
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="col-md-5">
+        <form class="form" asp-controller="TaiKhoan" asp-action="DangNhap" method="post">
+            <h1>Đăng nhập</h1>
+            <span style="color:red;">@ViewBag.LoiDangNhap</span>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MatKhau"></label>
+                <input class="form-control" asp-for="MatKhau">
+                <span asp-validation-for="MatKhau" class="text-danger"></span>
+            </div>
+            <a asp-controller="TaiKhoan" asp-action="DangKy">Bạn chưa có tài khoản thành viên ?</a><br />
+            <a asp-controller="TaiKhoan" asp-action="QuenMatKhau">Quên mật khẩu !</a>
+            <div class="padding-top-20">
+                <input type="submit" class="btn btn-primary" value="Đăng nhập" />
+            </div>
+            
+        </form>
+    </div>
+</div>

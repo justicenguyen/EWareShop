@@ -1,0 +1,193 @@
+﻿@model EWareShop.Models.DuLieuDanhSachSanPhamKhuyenMai
+@{
+    ViewData["Title"] = "Danh sách sản phẩm theo loại";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+    <!--Danh sach sản phẩm-->
+    <div class="col-md-9 col-sm-8">
+        <form asp-controller="SanPham" asp-action="DanhSachSanPhamKhuyenMai1" method="get">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Chọn loại sản phẩm</label>
+                            <select class="form-control" name="loai" id="loai" onchange="this.form.submit();">
+                                <option value="tatca">---Tất cả---</option>
+                                @foreach (var lsp in Model.DSLoaiSanPham)
+                                {
+                                    if (ViewData["loai"].Equals(lsp.TenLoaiSPKhongDau))
+                                    {
+                                        <option value="@lsp.TenLoaiSPKhongDau" selected="selected">@lsp.TenLoaiSPCoDau</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@lsp.TenLoaiSPKhongDau">@lsp.TenLoaiSPCoDau</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Chọn nhà sản xuất</label>
+                            <select class="form-control" id="hang" name="hang" onchange="this.form.submit();">
+                                <option value="tatca">---Tất cả---</option>
+                                @foreach (var nsx in Model.DSNhaSanXuat)
+                                {
+                                    if (ViewData["hang"].Equals(nsx.TenNSXKhongDau))
+                                    {
+                                        <option value="@nsx.TenNSXKhongDau" selected="selected">@nsx.TenNSXCoDau</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@nsx.TenNSXKhongDau">@nsx.TenNSXCoDau</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Chọn mức giá</label>
+                            <select class="form-control" name="gia" id="gia" onchange="this.form.submit();">
+                                <option value="tatca">---Tất cả---</option>
+                                @{
+                                    if (ViewData["gia"].Equals("duoi-5-trieu"))
+                                    {
+                                        <option value="duoi-5-trieu" selected="selected">Dưới 5 triệu</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="duoi-5-trieu">Dưới 5 triệu</option>
+                                    }
+                                }
+                                @{
+                                    if (ViewData["gia"].Equals("tu-5-7-trieu"))
+                                    {
+                                        <option value="tu-5-7-trieu" selected="selected">Từ 5 đến 7 triệu</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="tu-5-7-trieu">Từ 5 đến 7 triệu</option>
+                                    }
+                                }
+                                @{
+                                    if (ViewData["gia"].Equals("tu-7-10-trieu"))
+                                    {
+                                        <option value="tu-7-10-trieu">Từ 5 đến 7 triệu</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="tu-7-10-trieu">Từ 5 đến 7 triệu</option>
+                                    }
+                                }
+                                @{
+                                    if (ViewData["gia"].Equals("tren-10-trieu"))
+                                    {
+                                        <option value="tren-10-trieu">Từ 5 đến 7 triệu</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="tren-10-trieu">Từ 5 đến 7 triệu</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <h2>Danh sách sản phẩm khuyến mãi</h2>
+        <div class="row" style="margin-top:20px;">
+            @foreach (var sp in Model.DSSanPhamKhuyenMai)
+            {
+                <div class="col-md-3">
+                    <div class="product-item">
+                        <div class="pi-img-wrapper" style="height:150px;">
+                            <img src="/@sp.HinhAnh" class="img-responsive" alt="Berry Lace Dress">
+                            <div>
+                                <a class="btn btn-default" onclick="themgiohang(@sp.SanPhamID)">Thêm <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                <a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@sp.TenSPKhongDau" class="btn btn-default fancybox-fast-view">View</a>
+                            </div>
+                        </div>
+                        <h3><a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@sp.TenSPKhongDau">@sp.TenSPCoDau</a></h3>
+                        <div class="pi-price">@Html.DisplayFor(modelItem => sp.GiaBan) vnd </div>
+                        <div style="clear:both;">
+                            @{
+                                if (sp.GiaGiam != 0)
+                                {
+                                    @: <span style="text-decoration:line-through;">@Html.DisplayFor(modelItem => sp.GiaGoc) vnd</span>&nbsp;<span style="background-color:red;">-@(sp.GiaGiam * 100 / sp.GiaGoc) %</span>
+                                    <div class="sticker sticker-sale"></div>
+                                }
+                            }
+                            &nbsp;
+                        </div>
+                        
+                    </div>
+                </div>
+             }
+        </div>
+        <br />
+        <form id="boloc" asp-controller="SanPham" asp-action="DanhSachSanPhamKhuyenMai1" method="get" >
+            <input type="hidden" id="loaisp" name="loai" />
+            <input type="hidden" id="hangsp" name="hang" />
+            <input type="hidden" id="giasp" name="gia" />
+            <input type="hidden" id="trangsp" name="trang" />
+        </form>
+        <!-- BEGIN PAGINATOR -->
+        <div class="row">
+            <div class="col-md-4 col-sm-4 items-info"></div>
+            <div class="col-md-8 col-sm-8">
+                <ul class="pagination pull-right">
+                    @{
+                        if (Model.SoTrangSanPham != 1)
+                        {
+                            if (Model.TrangHienTai != 1)
+                            {
+                                <li><a style="cursor:pointer" class="trangsp" data-trang="@(Model.TrangHienTai-1)">Trước</a></li>
+                            }
+                            for (int i = 1; i <= Model.SoTrangSanPham; i++)
+                            {
+                                if (Model.TrangHienTai == i)
+                                {
+                                    <li><span>@i</span></li>
+                                }
+                                else
+                                {
+                                    <li><a style="cursor:pointer" class="trangsp" data-trang="@i"><b>@i</b></a></li>
+                                }
+                            }
+                            if (Model.TrangHienTai != Model.SoTrangSanPham)
+                            {
+                                <li><a style="cursor:pointer" class="trangsp" data-trang="@(Model.TrangHienTai+1)">Sau</a></li>
+                            }
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <!-- END PAGINATOR -->
+    </div>
+</div>
+@section GioHang_Script{
+    <script src="~/frontend_client/js/giohang.js"></script>
+    <script>
+        $('.trangsp').off('click').on('click', function () {
+            var trang = $(this).data('trang');
+            $('#loaisp').val($('#loai').val());
+            $('#hangsp').val($('#hang').val());
+            $('#giasp').val($('#gia').val());
+            $('#trangsp').val(trang);
+            $('#boloc').submit();
+        });
+    </script>
+}

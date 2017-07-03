@@ -1,0 +1,8 @@
+﻿@model List<EWareShop.Models.LoaiSanPham>
+<ul>
+    @foreach (var lsp in Model)
+    {
+        <li><a class="active" asp-controller="SanPham" asp-action="DanhSachSanPhamTheoLoai" asp-route-id="@lsp.TenLoaiSPKhongDau"><i class="icon-chevron-right"></i>@lsp.TenLoaiSPCoDau</a></li>
+
+    }
+</ul>

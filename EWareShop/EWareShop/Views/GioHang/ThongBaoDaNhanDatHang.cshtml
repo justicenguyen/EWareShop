@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+    <div class="col-md-9 col-sm-8">
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-40">
+            <!-- BEGIN CONTENT -->
+            <div class="col-md-12 col-sm-12">
+                <h1>Xác nhận đã nhận đơn đặt hàng</h1>
+                <h5>Đơn hàng đã được nhận, Cửa hàng sẽ liên lạc với quý khách trong thời gian sớm nhất.</h5>
+                <h5>Cảm ơn quý khách đã quan tâm và ủng hộ cửa hàng !</h5>
+                <a class="btn btn-default" asp-controller="TrangChu" asp-action="Index">Quay lại cửa hàng <i class="fa fa-shopping-cart"></i></a>
+            </div>
+            <!-- END CONTENT -->
+        </div>
+        <!-- END SIDEBAR & CONTENT -->
+    </div>
+</div>

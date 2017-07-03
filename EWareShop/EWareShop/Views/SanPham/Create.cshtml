@@ -1,0 +1,287 @@
+﻿@model EWareShop.Models.SanPham
+
+@{
+    ViewData["Title"] = "Tạo mới sản phẩm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var dsLoaiSanPham = (List<EWareShop.Models.LoaiSanPham>)ViewBag.DSLoaiSanPham;
+    var dsNhaSanXuat = (List<EWareShop.Models.NhaSanXuat>)ViewBag.DSNhaSanXuat;
+}
+
+<h2>Tạo mới sản phẩm</h2>
+<form class="form-horizontal" asp-action="Create" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div style="margin-left:70px;"><img src="" id="img" class="img-rounded" alt="Chọn hình đại diện sản phẩm" width="400" height="320"></div><br />
+            <div class="form-group">
+                <label asp-for="HinhAnh" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input type="file" id="files" asp-for="HinhAnh" class="form-control" onchange="showMyImage(this)">
+                    <span asp-validation-for="HinhAnh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenSPCoDau" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="TenSPCoDau" id="tencodau" onblur="taotenkhongdau()">
+                    <span asp-validation-for="TenSPCoDau" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenSPKhongDau" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="TenSPKhongDau" id="tenkhongdau">
+                    <span asp-validation-for="TenSPKhongDau" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiaGoc" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="GiaGoc" value="0">
+                    <span asp-validation-for="GiaGoc" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="GiaGiam" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="GiaGiam" value="0">
+                    <span asp-validation-for="GiaGiam" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="LoaiSanPhamID"></label>
+                <div class="col-sm-7">
+
+                    <select class="form-control" asp-for="LoaiSanPhamID">
+                        @foreach (var lsp in dsLoaiSanPham)
+                        {
+                        <option value="@lsp.LoaiSanPhamID">@lsp.TenLoaiSPCoDau</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" asp-for="NhaSanXuatID"></label>
+                <div class="col-sm-7">
+                    <select class="form-control" asp-for="NhaSanXuatID">
+                        @foreach (var nsx in dsNhaSanXuat)
+                        {
+                        <option value="@nsx.NhaSanXuatID">@nsx.TenNSXCoDau</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MauSac" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="MauSac">
+                    <span asp-validation-for="MauSac" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="XuatXu" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="XuatXu">
+                    <span asp-validation-for="XuatXu" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="BaoHanh" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="BaoHanh" value="0">
+                    <span asp-validation-for="BaoHanh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="HienThi" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input style="width:20px;height:20px;" asp-for="HienThi" class="form-control">
+                    <span asp-validation-for="HienThi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="SanPhamBanChay" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input asp-for="SanPhamBanChay" style="width:20px;height:20px;" class="flat">
+                    <span asp-validation-for="SanPhamBanChay" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label asp-for="SoLuong" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="SoLuong" value="0">
+                    <span asp-validation-for="SoLuong" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="KichThuocThung" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="KichThuocThung">
+                    <span asp-validation-for="KichThuocThung" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhoiLuongThung" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="KhoiLuongThung">
+                    <span asp-validation-for="KhoiLuongThung" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="KichThuocMH" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="KichThuocMH">
+                    <span asp-validation-for="KichThuocMH" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="DoPhanGiai" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="DoPhanGiai">
+                    <span asp-validation-for="DoPhanGiai" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManHinhCong" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="ManHinhCong">
+                    <span asp-validation-for="ManHinhCong" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="BoXuLy" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="BoXuLy">
+                    <span asp-validation-for="BoXuLy" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="SmartTV" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="SmartTV">
+                    <span asp-validation-for="SmartTV" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="TanSoQuet" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="TanSoQuet">
+                    <span asp-validation-for="TanSoQuet" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CongSuatLoa" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="CongSuatLoa">
+                    <span asp-validation-for="CongSuatLoa" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CongWiFi" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="CongWiFi">
+                    <span asp-validation-for="CongWiFi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CongInternet" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="CongInternet">
+                    <span asp-validation-for="CongInternet" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CongHDMI" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="CongHDMI">
+                    <span asp-validation-for="CongHDMI" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CongUSB" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="CongUSB">
+                    <span asp-validation-for="CongUSB" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChiaSeThongMinh" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="ChiaSeThongMinh">
+                    <span asp-validation-for="ChiaSeThongMinh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="HeDeHanh" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="HeDeHanh">
+                    <span asp-validation-for="HeDeHanh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrinhDuyetWeb" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="TrinhDuyetWeb">
+                    <span asp-validation-for="TrinhDuyetWeb" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoaiDanMay" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="LoaiDanMay">
+                    <span asp-validation-for="LoaiDanMay" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LoaiDauDia" class="col-md-4 control-label"></label>
+                <div class="col-sm-7">
+                    <input class="form-control" asp-for="LoaiDauDia">
+                    <span asp-validation-for="LoaiDauDia" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <label asp-for="MoTa"></label>
+    <div id="ckeditor">
+        <textarea id="editor1" asp-for="MoTa" cols="80" rows="20">
+			</textarea>
+    </div>
+    <br />
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Xác nhận" class="btn btn-primary " />
+        </div>
+    </div>
+</form>
+@section ckeditor{
+    <script src="~/frontend_admin/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script src="~/frontend_admin/js/loadimage.js" type="text/javascript"></script>
+    <script>
+        CKEDITOR.replace('editor1');
+        function taotenkhongdau()
+        {
+            var str = $('#tencodau').val();
+            str= str.toLowerCase();
+            str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ  |ặ|ẳ|ẵ/g,"a");
+            str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+            str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+            str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ  |ợ|ở|ỡ/g,"o");
+            str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+            str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+            str= str.replace(/đ/g,"d");
+            str= str.replace(/ /g,"-");
+            /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
+            str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+            str= str.replace(/^\-+|\-+$/g,"");
+            //cắt bỏ ký tự - ở đầu và cuối chuỗi
+            $('#tenkhongdau').val(str);
+
+        }
+
+    </script>
+}
+

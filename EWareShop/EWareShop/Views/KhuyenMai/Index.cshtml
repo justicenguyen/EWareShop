@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EWareShop.Models.KhuyenMai>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Danh sách chương trình khuyến mãi</h2>
+
+<a class="btn btn-success btn-xs" asp-action="Create"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+<div class="row">
+    <div class="col-sm-7">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+                    <th width="10%">ID </th>
+                    <th width="50%">Tiêu đề</th>
+                    <th width="20%">Hiển thị</th>
+                    <th width="10%"> Sửa</th>
+                    <th width="10%"> Xóa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var km in Model)
+            {
+                    <tr class="even pointer">
+                        <td class=" ">@km.KhuyenMaiID</td>
+                        <td class=" ">@km.TieuDeKhuyenMai</td>
+                        <td class=" "><input type="checkbox" style="width:20px;height:20px;" data-idkm="@km.KhuyenMaiID" class="hienthi" @(km.HienThi?"checked=checked":"") /></td>
+                        <td class=""><a class="btn btn-primary btn-xs" asp-action="Edit" asp-route-id="@km.KhuyenMaiID"><i class="fa fa-edit"></i>Sửa</a></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id="@km.KhuyenMaiID"><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+@section KhuyenMai_Index_Scripts{
+    <script>
+        $('.hienthi').off('click').on('click', function () {
+            var idkm = $(this).data('idkm');
+            $.ajax(
+                {
+                    type: 'GET',
+                    url: "/KhuyenMai/ThayDoiHienThi",
+                    data: { "idkm": idkm },
+                    success: function (rs) {
+                        alert(rs);
+                    }
+                })
+        });
+    </script>
+}

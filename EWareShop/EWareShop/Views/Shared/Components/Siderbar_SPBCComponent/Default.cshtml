@@ -1,0 +1,39 @@
+﻿@model EWareShop.Models.SideBar_SPBCModel
+<!-- BEGIN SIDEBAR -->
+
+    <!--Loại sản phẩm-->
+    <div>
+        <h4>Loại sản phẩm</h4>
+        <ul class="list-group margin-bottom-25 sidebar-menu">
+            @foreach (var lsp in Model.DSLoaiSanPham)
+            {
+                <li class="list-group-item clearfix"><a asp-controller="SanPham" asp-action="DanhSachSanPhamTheoLoai1" asp-route-id="@lsp.TenLoaiSPKhongDau"><i class="fa fa-angle-right"></i>@lsp.TenLoaiSPCoDau</a></li>
+            }
+        </ul>
+    </div>
+    <!--end loại sản phẩm-->
+    <!--Sản phẩm bán chạy-->
+    <div class="sidebar-products clearfix">
+        <h2>Sản phẩm bán chạy</h2>
+        @foreach (var spbc in Model.DSSanPhamBanChay)
+        {
+            <div class="item">
+                <a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spbc.TenSPKhongDau"><img src="/@spbc.HinhAnh" alt="Some Shoes in Animal with Cut Out"></a>
+                <h3><a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spbc.TenSPKhongDau">@spbc.TenSPCoDau</a></h3>
+                <div class="price">@Html.DisplayFor(modelItem => spbc.GiaBan) vnd <br />
+                @{
+                    if (spbc.GiaGiam != 0)
+                    {
+                        @: <span style="text-decoration:line-through; color:black;">@Html.DisplayFor(modelItem => spbc.GiaGoc) vnd</span>&nbsp;<span style="background-color:red; color:black;">-@(spbc.GiaGiam * 100 / spbc.GiaGoc) %</span>    
+                    }
+                }
+                </div>
+
+            </div>
+
+        }
+    </div>
+    <!-- end Sản phẩm bán chạy-->
+
+
+<!-- END SIDEBAR -->

@@ -1,0 +1,34 @@
+﻿@model EWareShop.Models.LoaiSanPham
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>Tạo mới loại sản phẩm</h1>
+<div class="row">
+    <div class="col-sm-6">
+        <form class="form-horizontal" asp-action="Create">
+            <div class="form-group">
+                <label asp-for="TenLoaiSPCoDau" class="control-label col-sm-4"></label>
+                <div class="col-sm-7">
+                    <input type="text" asp-for="TenLoaiSPCoDau" class="form-control" placeholder="Nhập tên sản phẩm có dấu">
+                    <span asp-validation-for="TenLoaiSPCoDau" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenLoaiSPKhongDau" class="control-label col-sm-4"></label>
+                <div class="col-sm-7">
+                    <input type="text" asp-for="TenLoaiSPKhongDau" class="form-control" placeholder="Nhập tên sản phẩm không dấu">
+                    <span asp-validation-for="TenLoaiSPKhongDau" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-7">
+                    <input type="submit" value="Tạo" class="btn btn-default" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

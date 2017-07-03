@@ -1,0 +1,48 @@
+﻿@model IEnumerable<EWareShop.Models.KhuyenMai>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    @{ var nums = Model.Count(); bool init1 = true;}
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < nums; i++)
+        {
+            <li data-target="#myCarousel" data-slide-to="@i" @(init1 ? "class=active" : "") @{init1 = false;}></li>
+        }
+    </ol>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                @{ bool init2 = true;}
+                @foreach (var ctkm in Model)
+                {
+                    if (init2)
+                    {
+
+                        <div class="item active">
+                            <a asp-controller="KhuyenMai" asp-action="CTKhuyenMai1" asp-route-id="@ctkm.KhuyenMaiID"><img src="/@ctkm.HinhAnh" alt="Chicago" style="width:100%; height:400px;"></a>
+                        </div>
+                        init2 = false;
+                    }
+                    else
+                    {
+                        <div class="item">
+                            <img src="/@ctkm.HinhAnh" alt="Chicago" style="width:100%; height:400px;">
+                        </div>
+                    }
+
+
+                }
+
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

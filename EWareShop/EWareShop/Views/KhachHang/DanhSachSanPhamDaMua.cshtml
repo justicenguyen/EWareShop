@@ -1,0 +1,71 @@
+﻿@model EWareShop.Models.DuLieuDanhSachSanPhamDaMua
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Thông tin khách hàng</h2>
+<div class="thongtinkh">
+    <div class="row">
+        <div class="col-md-2">
+            <label>Họ tên khách hàng</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.ThongTinKhachHang.HoTenKhachHang</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Số điện thoại</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.ThongTinKhachHang.SoDienThoai</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Email</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.ThongTinKhachHang.Email</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label>Địa chỉ</label>
+        </div>
+        <div class="col-md-9">
+            <label>@Model.ThongTinKhachHang.DiaChi</label>
+        </div>
+    </div>
+</div>
+<hr />
+<div id="danhsachsanphamdamua" class="row">
+    <div class="col-sm-7">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+                <tr class="headings">
+
+                    <th width="10%">ID </th>
+                    <th width="35%">Sản phẩm </th>
+                    <th width="35%">Ngày mua</th>
+                    <th width="10%"> Sửa</th>
+                    <th width="10%"> Xóa</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var spdm in Model.DanhSachSanPhamDaMua)
+            {
+                    <tr class="even pointer">
+                        <td class=" ">@spdm.SanPhamBanID</td>
+                        <td class=" ">@spdm.TenSanPham</td>
+                        <td class=" ">@spdm.NgayBan</td>
+                        <td class=""><a class="btn btn-primary btn-xs" asp-action="Edit" asp-route-id=""><i class="fa fa-edit"></i>Sửa</a></td>
+                        <td class=""><a class="btn btn-danger btn-xs" asp-action="Delete" onclick="return confirm('Bạn có chắc chắn xóa không ?')" asp-route-id=""><i class="fa fa-trash-o"></i> Xóa</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

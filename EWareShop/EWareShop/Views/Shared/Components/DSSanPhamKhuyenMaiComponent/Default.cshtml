@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EWareShop.Models.SanPham>
+@{ int stt = 1; var idLSP = 0;}
+<div style="margin-bottom:30px;">
+    
+        @foreach (var spkm in Model)
+        {
+            if (stt <= 4)
+            {
+                if (stt == 1)
+                {
+                    @:<div class="row" id="km_@spkm.LoaiSanPham" style="margin-bottom:20px;">
+                     idLSP = spkm.SanPhamID;
+                }
+                <div class="col-md-3">
+                    <div class="product-item">
+                        <div class="pi-img-wrapper">
+                            <img src="/@spkm.HinhAnh" class="img-responsive" alt="Berry Lace Dress">
+                            <div>
+                                <a href="/@spkm.HinhAnh" class="btn btn-default fancybox-button">Zoom</a>
+                                <a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@spkm.SanPhamID" class="btn btn-default fancybox-fast-view">View</a>
+                            </div>
+                        </div>
+                        <h3><a href="shop-item.html">@spkm.TenSPCoDau</a></h3>
+                        <div class="pi-price">@Html.DisplayFor(modelItem => spkm.GiaBan) vnd</div>
+                        <div style="clear:both;">
+                            <span style="text-decoration:line-through;">@Html.DisplayFor(modelItem => spkm.GiaGoc) vnd</span>&nbsp;<span style="background-color:red;">-@(spkm.GiaGiam * 100 / spkm.GiaGoc) %</span>
+                        </div>
+                        <div class="sticker sticker-sale"></div>
+                        <div style="margin-top:5px;"><a  class="btn btn-default add2cart" onclick="themgiohang(@spkm.SanPhamID)">Add to cart</a></div>
+                        <div class="sticker sticker-sale"></div>
+                    </div>
+                </div>
+                if(stt==4)
+                {
+                    @:</div>
+                }
+                stt= stt + 1;
+            }
+        }
+    @{
+        if (Model.Count() > 4)
+        {
+            <div style="text-align:center;"><button type="button" class="btn btn-info"  id="xemthem_@idLSP" data-idlsp="@idLSP">Xem thêm</button></div>
+        }
+    }
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $('.btn btn-info').off('click').on('click', function () {
+        alert("vao");
+        var idlsp = $(this).data('idlsp');
+        $.ajax(
+            {
+                type: 'GET',
+                url: "/SanPham/LoadThemSanPhamKhuyenMai",
+                data: { "idlsp": idlsp },
+                success: function (rs) {
+                    var s = document.getElementById('km_' + idlsp).innerHTML;
+                    s = s + rs;
+                    $('#km_' + idlsp).html(s);
+                    $('xemthem_' + idlsp).hide();
+                }
+            })
+    });
+</script>

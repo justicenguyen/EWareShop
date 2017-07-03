@@ -1,0 +1,178 @@
+﻿@model EWareShop.Models.SanPhamBan
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var dsLoaiSanPham = (List<EWareShop.Models.LoaiSanPham>)ViewBag.dsLoaiSanPham;
+    var dsSanPham = (List<EWareShop.Models.SanPham>)ViewBag.dsSanPhamTheoLoai;
+    var sanphamID = ViewBag.sanPhamID;
+    sanphamID = Convert.ToString(sanphamID);
+    if (String.IsNullOrEmpty(sanphamID)) { sanphamID ="0"; }
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#loaisanpham').change(function () {
+            $.ajax({
+                url: '/SanPhamBan/LoadSanPhamTheoLoai',
+                type: 'POST',
+                data: { "idlsp": $('#loaisanpham').val() },
+                success: function (rs) {
+                    $('#slsanpham').html(rs);
+                }
+            });
+
+            $.ajax({
+                url: '/SanPhamBan/LoadThongTinSanPhamDauTien',
+                type: 'POST',
+                data: { "idlsp": $('#loaisanpham').val() },
+                success: function (rs) {
+                    $('#thongtinsanpham').html(rs);
+                }
+            });
+        });
+
+        $('#slsanpham').change(function () {
+            $.ajax({
+                url: '/SanPhamBan/LoadThongTinSanPham',
+                type: 'POST',
+                data: { "idsp": $('#slsanpham').val() },
+                success: function (rs) {
+                    $('#thongtinsanpham').html(rs);
+                }
+            });
+        });
+
+        $('#chonsanpham').click(function () {
+            $('#tensanpham').val($('#tensp').text());
+            $('#masanpham').val($('#masp').val());
+        });
+        $('#tao').click(function () {
+            $.ajax({
+                url: '/KhachHang/ThemKhachHang',
+                type: 'POST',
+                data: $('#form_kh').serialize(),
+                success: function (rs)
+                {
+                    $('#makhachhang').val(rs);
+                    $('#form_banhang').submit();
+                },
+                error : function ()
+                {
+                    $('#makhachhang').val("");
+                }
+            });
+        });
+        
+    });
+</script>
+@*@{ 
+    var location = new Uri($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}");
+
+    var url = location.AbsoluteUri;
+}*@
+<h2>Bán hàng</h2>
+@*<h1>@($"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}")</h1>
+<h1>@url</h1>*@
+<div class="row">
+    <div class="col-sm-5">
+        
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <label class="control-label col-sm-4">Loại sản phẩm</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="loaisanpham" >
+                        <option>---Chọn loại sản phẩm---</option>
+                        @foreach (var lsp in dsLoaiSanPham)
+                        {
+                            <option  value="@lsp.LoaiSanPhamID">@lsp.TenLoaiSPCoDau</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4">Sản phẩm</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="slsanpham">
+                        <option>---Chọn sản phẩm---</option>
+                        @foreach (var sp in dsSanPham)
+                        {
+                            <option value="@sp.SanPhamID">@sp.TenSPCoDau</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </form>
+        <hr />
+        <div class="row">
+            <div class="col-sm-7">
+                <h3>Thông tin sản phẩm</h3>
+            </div>
+            <div class="col-sm-5">
+                <button type="button" class="btn btn-primary btn-sm" id="chonsanpham">Chọn sản phẩm <span class="glyphicon glyphicon-play"></span></button>
+            </div>
+        </div>
+        <div class="row" id="thongtinsanpham">
+        </div>
+        
+    </div>
+    <div class="col-sm-7" >
+
+        <form class="form-horizontal"  id="form_kh">
+            <div class="form-group">
+                <label  class="control-label col-sm-3">Họ tên khách hàng *</label>
+                <div class="col-sm-7">
+                    <input type="text" name="HoTenKhachHang" value="@ViewBag.tenKH" class="form-control" placeholder="Nhập tên sản phẩm có dấu">
+                    <span  class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="control-label col-sm-3" >Số điện thoại *</label>
+                <div class="col-sm-7">
+                    <input type="text"  class="form-control" value="@ViewBag.soDT"  placeholder="Nhập tên sản phẩm không dấu" name="SoDienThoai">
+                    <span  class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3" >Địa chỉ</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" value="@ViewBag.diaChi"  placeholder="Nhập tên sản phẩm không dấu" name="DiaChi">
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+        </form>
+
+        <form class="form-horizontal" id="form_banhang" asp-controller="SanPhamBan" asp-action="BanHang">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label col-sm-3">Tên sản phẩm</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" value="@ViewBag.tenSP" name="TenSP" id="tensanpham"  placeholder="Nhập tên sản phẩm không dấu">
+                </div>
+            </div>
+            <input type="hidden" value="@sanphamID" id="masanpham"  asp-for="sanPhamID" />
+            <input type="hidden" asp-for="khachHangID" id="makhachhang" />
+            <div class="form-group">
+                <label class="control-label col-sm-3">Mã bảo hành</label>
+                <div class="col-sm-7">
+                    <input type="text" asp-for="maBaoHanh" class="form-control" placeholder="Nhập tên sản phẩm không dấu">
+                    <span asp-validation-for="maBaoHanh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-10">
+                    <span asp-validation-for="sanPhamID" class="text-danger"></span><br />
+                    <span asp-validation-for="khachHangID" class="text-danger"></span>
+                </div>
+                
+            </div>
+            
+        </form>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7">
+                <input type="button" id="tao" value="Tạo" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</div>

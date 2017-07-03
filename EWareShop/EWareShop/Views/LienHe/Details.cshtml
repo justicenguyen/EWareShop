@@ -1,0 +1,49 @@
+@model EWareShop.Models.LienHe
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LienHe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HoTen)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SoDienThoai)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SoDienThoai)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VanDe)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VanDe)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayGui)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NgayGui)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.LienHeID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

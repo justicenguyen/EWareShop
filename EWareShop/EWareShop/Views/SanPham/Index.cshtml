@@ -1,0 +1,154 @@
+﻿@model EWareShop.Models.DuLieuSanPhamIndex
+
+@{
+    ViewData["Title"] = "Sản phẩm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Danh sách sản phẩm</h2>
+
+<a class="btn btn-success btn-sm" asp-action="Create"><i class="fa fa-plus-circle"></i> Thêm mới sản phẩm</a>
+<!--Form lọc sản phẩm-->
+<form asp-controller="SanPham" asp-action="Index" method="get">
+    <div class="row">
+        <div class="col-md-4">
+            Loại sản phẩm
+            <select class="form-control" id="loaisanpham" name="loaisanpham">
+                <option value="tatca">Tất cả</option>
+                @foreach (var lsp in Model.DSLoaiSanPham)
+                {
+                    if (Model.LoaiSanPhamID.Equals(lsp.LoaiSanPhamID))
+                    {
+                        <option value="@lsp.LoaiSanPhamID" selected="selected">@lsp.TenLoaiSPCoDau</option>
+                    }
+                    else
+                    {
+                        <option value="@lsp.LoaiSanPhamID" >@lsp.TenLoaiSPCoDau</option>
+                    }
+
+                }
+            </select>
+        </div>
+        <div class="col-md-6">
+            Tìm kiếm
+            <div class="row">
+                <div class="col-md-8">
+                    <input class="form-control" id="tukhoa" placeholder="Nhập tên sản phẩm" value="@Model.TuKhoa" name="tukhoa"/>
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-default" value="Tìm" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- end Form lọc sản phẩm-->
+<!--Trang sản phẩm-->
+<div class="row">
+    <div class="btn-group pull-right">
+        @{
+            if (Model.SoTrangSanPham != 1)
+            {
+                if (Model.TrangHienTai != 1)
+                {
+                    <button class="btn btn-default" onclick="trang(@(Model.TrangHienTai-1))" type="button">Trước</button>
+                }
+                for (int i = 1; i <= Model.SoTrangSanPham; i++)
+                {
+                    if (Model.TrangHienTai == i)
+                    {
+                        <button class="btn btn-danger" disabled type="button">@i</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" onclick="trang(@i)" type="button">@i</button>
+                    }
+                }
+                if (Model.TrangHienTai != Model.SoTrangSanPham && Model.SoTrangSanPham != 0)
+                {
+                    <button class="btn btn-default" onclick="trang(@(Model.TrangHienTai+1))" type="button">Sau</button>
+                }
+            }
+        }
+
+    </div>
+</div>
+<!-- end Trang sản phẩm-->
+<!--Danh sách sản phẩm-->
+@{ int dem = 0;}
+@foreach (var sp in Model.DSSanPham)
+{
+    if (dem % 4 == 0)
+    {
+        @:<div class="row" style="margin-top:10px;">
+        }
+    dem++;
+    <!--SanPham-->
+    @await Component.InvokeAsync("SanPhamAdminComponent", sp.SanPhamID)
+    <!--end SanPham-->
+    @if (dem % 4 == 0)
+    {
+        @:</div>
+            }
+    else
+    {
+        if (dem == Model.DSSanPham.Count())
+        {
+            @:</div>
+                }
+    }
+}
+<!--end Danh sách sản phẩm-->
+<!--Form Bộ lọc có theo trang-->
+<form id="boloc" asp-controller="SanPham" asp-action="Index" method="get">
+    <input type="hidden" id="loaisanphamtrang" name="loaisanpham" />
+    <input type="hidden" id="tukhoatrang" name="tukhoa" />
+    <input type="hidden" id="trangsp" name="trang" />
+</form>
+<!--Form end Bộ lọc có theo trang-->
+<!--Trang sản phẩm-->
+<div class="row">
+    <div class="btn-group pull-right">
+        @{
+            if (Model.SoTrangSanPham != 1)
+            {
+                if (Model.TrangHienTai != 1)
+                {
+                    <button class="btn btn-default"  onclick="trang(@(Model.TrangHienTai-1))" type="button">Trước</button>
+                }
+                for (int i = 1; i <= Model.SoTrangSanPham; i++)
+                {
+                    if (Model.TrangHienTai == i)
+                    {
+                        <button class="btn btn-danger" disabled type="button">@i</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-default" onclick="trang(@i)" type="button">@i</button>
+                    }
+                }
+                if (Model.TrangHienTai != Model.SoTrangSanPham && Model.SoTrangSanPham != 0)
+                {
+                    <button class="btn btn-default" onclick="trang(@(Model.TrangHienTai+1))"  type="button">Sau</button>
+                }
+            }
+        }
+        
+    </div>
+</div>
+<!-- end Trang sản phẩm-->
+@section SanPhamIndex_Scripts{
+    <script src="~/frontend_admin/js/sanpham_index.js"></script>
+<script>
+    function trang(trang)
+    {
+        $('#loaisanphamtrang').val($('#loaisanpham').val());
+        $('#tukhoatrang').val($('#tukhoa').val());
+        $('#trangsp').val(trang);
+        $('#boloc').submit();
+
+    }
+</script>
+}
+
+

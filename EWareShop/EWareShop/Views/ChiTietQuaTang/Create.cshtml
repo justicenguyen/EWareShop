@@ -1,0 +1,41 @@
+@model EWareShop.Models.ChiTietQuaTang
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>ChiTietQuaTang</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="SanPhamID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="SanPhamID" class ="form-control" asp-items="ViewBag.SanPhamID"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="QuaTangID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="QuaTangID" class ="form-control" asp-items="ViewBag.QuaTangID"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

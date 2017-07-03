@@ -1,0 +1,94 @@
+﻿@model EWareShop.Models.DanhSachSanPhamTimKiem
+@{
+    ViewData["Title"] = "Danh sách sản phẩm theo loại";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+    <!--Danh sach sản phẩm-->
+    <div class="col-md-9 col-sm-8">
+        <h2>Danh sách sản phẩm Tìm kiếm cho từ khóa "@Model.TuKhoa"</h2>
+        <div class="row" style="margin-top:20px;">
+            @foreach (var sp in Model.dssanphamtimkiem)
+            {
+                <div class="col-md-3">
+                    <div class="product-item">
+                        <div class="pi-img-wrapper">
+                            <img src="/@sp.HinhAnh" class="img-responsive" alt="Berry Lace Dress">
+                            <div>
+                                <a class="btn btn-default" onclick="themgiohang(@sp.SanPhamID)">Thêm <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                <a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@sp.TenSPKhongDau" class="btn btn-default fancybox-fast-view">View</a>
+                            </div>
+                        </div>
+                        <h3><a asp-controller="SanPham" asp-action="ChiTietSanPham" asp-route-id="@sp.TenSPKhongDau">@sp.TenSPCoDau</a></h3>
+                        <div class="pi-price">@Html.DisplayFor(modelItem => sp.GiaBan) vnd </div>
+                        <div style="clear:both;">
+                            @{
+                                if (sp.GiaGiam != 0)
+                                {
+                                    @: <span style="text-decoration:line-through;">@Html.DisplayFor(modelItem => sp.GiaGoc) vnd</span>&nbsp;<span style="background-color:red;">-@(sp.GiaGiam * 100 / sp.GiaGoc) %</span>
+                                    <div class="sticker sticker-sale"></div>
+                                }
+                            }
+                            &nbsp;
+                        </div>
+
+                    </div>
+                </div>
+                                }
+        </div>
+
+
+        <form id="boloc" asp-controller="SanPham" asp-action="DanhSachSanPhamTimKiem1" method="get">
+            <input type="hidden" id="tukhoatimkiem" name="tukhoa" value="@Model.TuKhoa" />
+            <input type="hidden" id="trangsp" name="trang" />
+        </form>
+        <!-- BEGIN PAGINATOR -->
+        <div class="row">
+            <div class="col-md-4 col-sm-4 items-info"></div>
+            <div class="col-md-8 col-sm-8">
+                <ul class="pagination pull-right">
+                    @{
+                        if (Model.SoTrangSanPham != 1)
+                        {
+                            if (Model.TrangHienTai != 1)
+                            {
+                                <li><a style="cursor:pointer" class="trangsp" data-trang="@(Model.TrangHienTai-1)">Trước</a></li>
+                            }
+                            for (int i = 1; i <= Model.SoTrangSanPham; i++)
+                            {
+                                if (Model.TrangHienTai == i)
+                                {
+                                    <li><span>@i</span></li>
+                                }
+                                else
+                                {
+                                    <li><a style="cursor:pointer" class="trangsp" data-trang="@i"><b>@i</b></a></li>
+                                }
+                            }
+                            if (Model.TrangHienTai != Model.SoTrangSanPham)
+                            {
+                                <li><a style="cursor:pointer" class="trangsp" data-trang="@(Model.TrangHienTai+1)">Sau</a></li>
+                            }
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <!-- END PAGINATOR -->
+
+    </div>
+</div>
+@section GioHang_Script{
+<script src="~/frontend_client/js/giohang.js"></script>
+    <script>
+        $('.trangsp').off('click').on('click', function () {
+            var trang = $(this).data('trang');
+            $('#trangsp').val(trang);
+            $('#boloc').submit();
+        });
+    </script>
+}

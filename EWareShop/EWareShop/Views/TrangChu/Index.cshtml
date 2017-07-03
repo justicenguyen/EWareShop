@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_ClientLayout1.cshtml";
+}
+@await Component.InvokeAsync("SliderAdvComponent")
+<hr />
+@await Component.InvokeAsync("DSSanPhamMoiComponent")
+<hr />
+<div class="row margin-bottom-40 ">
+    <div class="sidebar col-md-3 col-sm-4">
+        @await Component.InvokeAsync("Siderbar_SPBCComponent")
+    </div>
+
+    <div class="col-md-9 col-sm-8">
+        @await Component.InvokeAsync("DSSanPhamDacTrungComponent")
+    </div>
+</div>
+@section GioHang_Script{
+    <script src="~/frontend_client/js/giohang.js"></script>
+}

@@ -1,0 +1,13 @@
+﻿
+@{ 
+    var nguoiDungHienTai = (EWareShop.Models.TaiKhoan)ViewBag.taiKhoan;
+}
+@if (nguoiDungHienTai == null)
+{
+    <li><a asp-controller="TaiKhoan" asp-action="DangKy">Đăng ký</a></li>
+    <li><a asp-controller="TaiKhoan" asp-action="DangNhap">Đăng nhập</a></li>
+}
+else
+{
+    <li><a asp-controller="TaiKhoan" asp-action="TaiKhoan">Xin chào @nguoiDungHienTai.HoTen</a></li>
+}

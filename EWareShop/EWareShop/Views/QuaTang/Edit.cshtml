@@ -1,0 +1,34 @@
+@model EWareShop.Models.QuaTang
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>QuaTang</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="QuaTangID" />
+        <div class="form-group">
+            <label asp-for="TenQuaTang" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TenQuaTang" class="form-control" />
+                <span asp-validation-for="TenQuaTang" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
